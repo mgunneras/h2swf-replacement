@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>h2swf replacement example page</title>
+		
+		<!-- yui reset -->
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset/reset-min.css" /> 
+		
+		<!-- jQuery -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js"></script>
+
+		<!-- swfobject 2 -->
+		<script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"></script>
+		
+		<!-- h2swf plugin -->
+		<script src="../javascript/jquery.h2swf.js"></script>
+		
+		
+		<style type="text/css" media="screen">
+			body, html { text-align:center; background:#eee; }
+			#page { text-align:left; width:600px; min-height:400px; background:#fff; margin:0 auto; padding:30px 0; }
+			h1 { font-family:Helvetica, Arial, sans-serif; font-size:3em; margin:0 0 30px 0; }
+			h2 { font-family:Helvetica, Arial, sans-serif; font-size:3em; margin:30px 0 10px 0; }
+		</style>
+		
+		
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function(){
+				
+				$('h1').h2swf({
+					debug : 0,
+					alpha : .3,
+					blocking : [10, 15, 8, 10],
+					leading : -5,
+					tracking : -5,
+					background_color : '000000',
+					color : 'ffffff',
+					font_size : 70,
+					pad_desc : 2,
+					sharpness : 0,
+					thickness : 0,
+					swf : "../flash/header.swf",
+					height: 'callback'
+				});
+
+				$('h2').h2swf({
+					debug : 0,
+					alpha : .1,
+					blocking : [8, 18, 7, 8],
+					leading : -5,
+					tracking : -3,
+					background_color : '000000',
+					color : '333333',
+					font_size : 50,
+					pad_desc : 0,
+					sharpness : 0,
+					thickness : 0,
+					swf : "../flash/header.swf",
+					height: 'callback'
+				});
+
+				
+			});
+		</script>
+		
+	</head>
+	<body>
+		<div id="page">
+			<h1>Lorem ipsum <br>dolor sit amet, <br>consectetur</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<h2>Sed do eiusmod<br> tempor incididunt</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<h2>Ut enim ad</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+		</div>
+	</body>
+</html>
