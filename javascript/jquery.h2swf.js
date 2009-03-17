@@ -61,10 +61,10 @@ document.h2swf_callbacks = [];
 				container.css('display', 'block');
 				
 				// calculate height and set it to the element.
-				if(options.width != 'callback'){
+				if(options.width != 'callback' && options.width != null){
 					container.css('width', options.width || el.css('width'));
 				};
-				if(options.height != 'callback'){
+				if(options.height != 'callback' && options.width != null){
 					container.css('height', options.height || el.css('height'));
 				};
 
@@ -115,9 +115,8 @@ document.h2swf_callbacks = [];
 	});
 })(jQuery);
 function h2swf_callback(id, width, height) {
-	console.log('h2swf_callback: id:' + id +' width: '+ width + ' height: '+ height);
 	var settings = document.h2swf_callbacks[id];
-	settings.callback(id, width, height);
+	settings.callback(id, width, height);	
 	if(settings.options.width == 'callback'){
 		$('#'+id).css('width', width);
 	}

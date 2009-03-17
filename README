@@ -1,0 +1,31 @@
+H2SWF by Mattias Gunneras 
+
+
+sIFR inspired heading to swf with blocking.
+
+TODO:
+	- Automatically set width and hight of the element.
+	
+Dependencies:
+	- jQuery 1.3
+	- swfobject 2
+
+
+Example Usage:
+
+$('h1').h2swf({
+	debug : 0,						// depends on console.log
+	alpha : .3,						// blocking transparency
+	blocking : [8, 15, 8, 10],		// blocking [top, right, bottom, left]
+	leading : -8,					// line spacing
+	tracking : -5,					// letter spacing
+	pad_desc : 2,					// adds extra blocking on last line if that line's letters has descenders
+	background_color : '000000',
+	color : 'ffffff',
+	font_size : 70,
+	sharpness : 0,					
+	thickness : 0,					
+	swf : "../flash/header.swf",	// path to the swf
+	height: 'callback',				// number or 'callback'
+	width: 'callback'				// number or 'callback'
+});
