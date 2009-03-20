@@ -20,7 +20,9 @@ document.h2swf_callbacks = [];
 				pad_asc : null, // not yet implemented
 				pad_desc : 0,
 				sharpness : 0, // -400 to 400
-				thickness : 0, // -200 to 200 
+				thickness : 0, // -200 to 200
+				wraptext : true,
+				auto_adjust_window : true,
 				on_ready_callback : function(){}
 			};
 
@@ -34,7 +36,7 @@ document.h2swf_callbacks = [];
 				
 				// read text inside the element.
 				var text = source.replace(/\<br\>/g, '<BR>').split('<BR>');
-
+				
 				// append the text to span inside the el
 				el.html('<span>'+source+'</span>');
 				
@@ -63,6 +65,7 @@ document.h2swf_callbacks = [];
 				// calculate height and set it to the element.
 				if(options.width != 'callback' && options.width != null){
 					container.css('width', options.width || el.css('width'));
+					max_width = parseInt(options.width);
 				};
 				if(options.height != 'callback' && options.width != null){
 					container.css('height', options.height || el.css('height'));
@@ -98,7 +101,10 @@ document.h2swf_callbacks = [];
 					pad_desc : options.pad_desc,
 					sharpness : options.sharpness,
 					thickness : options.thickness,
-					callback : "h2swf_callback"
+					callback : "h2swf_callback",
+					max_width : max_width,
+					auto_adjust_window : options.auto_adjust_window,
+					max_width : options.width
 				};
 				
 				el.find('span').hide(); // hide real text. We might want to do this in a more accessible way here.

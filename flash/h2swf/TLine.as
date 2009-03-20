@@ -29,6 +29,12 @@ package h2swf {
 			metrics = text_strip.textfield.getLineMetrics(0);
 		}
 		
+		public function set_text(t:String) {
+			the_string = t;
+			if(text_strip)
+				text_strip.set_text(the_string);
+		}
+		
 		public function width() {
 			return text_strip.width;
 		}

@@ -27,6 +27,9 @@ package h2swf {
 		public var _manager:h2swf.StripManager;
 		private var _start_hidden;
 		private var _callback;
+		private var _max_width;
+		private var _widow_fix;
+		
 		
 		
 		public function Application() {
@@ -37,7 +40,7 @@ package h2swf {
 			try{
 				_render_txt = getSwfVar( 'render_txt' );
 			} catch (e:Error) {
-				_render_txt = "Dummy|Text";
+				_render_txt = "This is some testing text";
 			}
 			
 			try{
@@ -55,7 +58,7 @@ package h2swf {
 			try{
 				_alpha = parseFloat(getSwfVar( 'alpha' ));
 			} catch (e:Error) {
-				_alpha = .5;
+				_alpha = .3;
 			}
 
 			try{
@@ -65,7 +68,7 @@ package h2swf {
 					_blocking[i] = parseInt(_blocking[i]);
 				}
 			} catch (e:Error) {
-				_blocking = [10,10,0,10];
+				_blocking = [10, 15, 4, 10];
 			}
 
 			try{
@@ -95,7 +98,7 @@ package h2swf {
 			try{
 				_pad_desc = parseInt(getSwfVar( 'pad_desc' ));
 			} catch (e:Error) {
-				_pad_desc = 0;
+				_pad_desc = 6;
 			}
 
 			try{
@@ -126,14 +129,26 @@ package h2swf {
 				_callback = getSwfVar( 'callback' );
 			} catch (e:Error) {
 				_callback = "";
-			}			
+			}
+
+			try{
+				_max_width = getSwfVar( 'max_width' );
+			} catch (e:Error) {
+				_max_width = 700;
+			}
+
+			try{
+				_widow_fix = getSwfVar( 'widow_fix' );
+			} catch (e:Error) {
+				_widow_fix = true;
+			}
 			
 			loaderInfo.addEventListener(Event.INIT, initHandler);			
 		}
 		
 		public function initHandler(e:Event) {
-			_manager = new h2swf.StripManager(this, _id, _font_size, _color, _background_color, _alpha, _blocking, _leading, _tracking, _pad_asc, _pad_desc, _sharpness, _thickness);
-			
+
+			_manager = new h2swf.StripManager(this, _id, _font_size, _color, _background_color, _alpha, _blocking, _leading, _tracking, _pad_asc, _pad_desc, _sharpness, _thickness, _max_width, _widow_fix);
 			
 			var sizes:Array = new Array(0, 0);
 			if(_render_txt)
@@ -178,10 +193,12 @@ package h2swf {
 			THE FLASH AUTHORING TOOL
 		*/
 		public function run_timed_tests() {
-			setTimeout(display_test_text, 1000, ['Get the', 'Carrington']);
-			setTimeout(display_test_text, 2000, ['City','back in','Europe.']);
-			setTimeout(display_test_text, 3000, ['three', 'line', 'text']);
-/*			setTimeout(display_test_text, 4000, ['you are yeah']);
+			setTimeout(display_test_text, 1000, ['City back in Europe.']);
+			/*setTimeout(display_test_text, 2000, ['City back', 'in Europe.']);
+			setTimeout(display_test_text, 3000, ['Three', 'Line', 'Text']);
+			setTimeout(display_test_text, 4000, ['Some decenders on the last line yes?']);
+			setTimeout(display_test_text, 5000, ['This is a little text with many many small']);
+			
 */		}		
 		public function display_test_text(thetext) {
 			_manager.build_header(thetext, false);

@@ -29,19 +29,17 @@ package h2swf {
 		}
 		
 		public function clear() {
-			trace('Clearing out the blocking..');
 			_tlines = new Array();
 			_sprite.graphics.clear()
 			_sprite.graphics.beginFill(_color);
 		}
 
 		public function add_tline(line:TLine) {	
-			trace('Adding text line to blocking: ' + line);
 			_tlines.push(line);
 		}
 		
 		public function set_line_height(line_height:Number) {
-			trace('Setting line height: '+ line_height);
+
 			_line_height = line_height - .5;
 			
 			// TODO: Calculate this based on actual rendering of the font.
