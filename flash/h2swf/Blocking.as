@@ -68,7 +68,7 @@ package h2swf {
 					MOVE STEP ONE (2) (right)
 				*/
 				
-				cx = c.width() + _default_blocking[3] + _default_blocking[1];
+				cx = c.width(false) + _default_blocking[3] + _default_blocking[1];
 				
 				_sprite.graphics.lineTo(cx, cy);					
 				
@@ -100,13 +100,13 @@ package h2swf {
 				// if next
 				if(n){
 					// if next is longer
-					if(n.width() > c.width()) {
+					if(n.width(false) > c.width(false)) {
 						// only go to baseline for this one
 						cy -= line_height() - c.baseline();
 					}
 					
 					// if next if shorter
-					if(n.width() < c.width()) {
+					if(n.width(false) < c.width(false)) {
 						// only go to baseline for this one
 						cy += line_height() - c.baseline();
 					}

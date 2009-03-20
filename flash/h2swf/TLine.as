@@ -35,8 +35,12 @@ package h2swf {
 				text_strip.set_text(the_string);
 		}
 		
-		public function width() {
-			return text_strip.width;
+		public function width(blocking) {
+			if (blocking) {
+				return text_strip.width+blocking._default_blocking[1]+blocking._default_blocking[3];
+			}else{
+				return text_strip.width;
+			}			
 		}
 		
 		public function baseline() {

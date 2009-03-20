@@ -66,7 +66,9 @@ document.h2swf_callbacks = [];
 				if(options.width != 'callback' && options.width != null){
 					container.css('width', options.width || el.css('width'));
 					max_width = parseInt(options.width);
-				};
+				}else{
+					max_width = 0;
+				}
 				if(options.height != 'callback' && options.width != null){
 					container.css('height', options.height || el.css('height'));
 				};

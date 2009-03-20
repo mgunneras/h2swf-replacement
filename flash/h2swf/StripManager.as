@@ -118,7 +118,7 @@ package h2swf {
 				var piece = pieces.shift();
 				if(!piece){ trace('Empty piece, moving on.'); continue; } // if empty line
 				//return final_pieces;
-				if(get_tline(piece).width()+_blocking._default_blocking[1]+_blocking._default_blocking[3] > _max_width){
+				if(get_tline(piece).width(_blocking) > _max_width){
 					// too wide so let's cut the piece down by one word
 					if(piece.split(" ").length <= 1){
 						trace('Only one word so nothing to do but move on.');
@@ -148,10 +148,15 @@ package h2swf {
 			so we always end the last line with 2 words.
 		*/
 		public function auto_adjust_for_widows(pieces):Array {
-			if(pieces.length > 1 && pieces[pieces.length-1].split(' ').length == 1 && pieces[pieces.length-2].split(' ').length >= 3){
+			if(pieces.length > 1 && pieces[pieces.length-1].split(' ').length == 1 && pieces[pieces.length-2].split(' ').length >= 4){
 				var prev_arr:Array = pieces[pieces.length-2].split(' ');
-				pieces[pieces.length-1] = prev_arr.pop() + ' ' + pieces[pieces.length-1];
-				pieces[pieces.length-2] = prev_arr.join(' ');
+				var new_last = prev_arr.pop() + ' ' + pieces[pieces.length-1];
+				if(get_tline(new_last).width(_blocking) < _max_width){
+					// only pop onto new row if still fits max size.
+					pieces[pieces.length-1] = new_last;
+					pieces[pieces.length-2] = prev_arr.join(' ');					
+				}
+				
 			}
 			return pieces
 		}
