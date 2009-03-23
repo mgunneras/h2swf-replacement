@@ -29,3 +29,10 @@ $('h1').h2swf({
 	height: 'callback',				// number or 'callback'
 	width: 'callback'				// number or 'callback'
 });
+
+
+
+TODO:
+
+ - Degrade gracefully for non Flash environments.
+ - Move settings and callback function into $.h2swf to avoid cluttering global namespace.

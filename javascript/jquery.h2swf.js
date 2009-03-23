@@ -5,14 +5,14 @@ document.h2swf_callbacks = [];
 		h2swf: function (options) {
 
 			var defaults = {
-				debug : false,
+				debug : 0,
 				divider : '|',
 				width : null, // add checking if this is not set
 				height : null, // add checking if this is not set
 				swf : "../flash/header.swf",
 				wmode : "transparent",
-				color : null,
-				background_color : null,
+				color : 'ffffff',
+				background_color : '000000',
 				alpha : .5,
 				blocking : [0, 0, 0, 0],
 				tracking : 0,
@@ -21,8 +21,8 @@ document.h2swf_callbacks = [];
 				pad_desc : 0,
 				sharpness : 0, // -400 to 400
 				thickness : 0, // -200 to 200
-				wraptext : true,
-				auto_adjust_window : true,
+				wordwrap : true, // wraps text if wider than 'width'
+				prevent_widow : false, // tries to prevent a single word on the last line.
 				on_ready_callback : function(){}
 			};
 
@@ -46,9 +46,6 @@ document.h2swf_callbacks = [];
 				for(var i = 0; i < text.length; i++)
 					text[i] = text[i].replace(/^\s+|\s+$/g, '');
 				
-				// count the rows
-				var rows = text.length;
-				
 				// swap row breaks with divider
 				text = text.join('|');
 								
@@ -63,9 +60,11 @@ document.h2swf_callbacks = [];
 				container.css('display', 'block');
 				
 				// calculate height and set it to the element.
-				if(options.width != 'callback' && options.width != null){
+				if(typeof(options.width) == 'number') {
 					container.css('width', options.width || el.css('width'));
 					max_width = parseInt(options.width);
+				}else if(options.wordwrap){
+					max_width = parseInt(el.css('width'));
 				}else{
 					max_width = 0;
 				}
@@ -82,14 +81,14 @@ document.h2swf_callbacks = [];
 					id: id
 				};
 				
-				document.h2swf_callbacks[id] = { 
+				document.h2swf_callbacks[id] = {
 					callback : options.on_ready_callback,
 					options: options
 				};
-				
+
 				var flashvars = {
 					id : id,
-					debug : options.debug ? 1 : 0,
+					debug : options.debug  ? 1:0,
 					render_txt : text,
 					color : options.color ? options.color :  CSSColorToHex(el.css('color')),
 					background_color : options.background_color ? options.background_color :  CSSColorToHex(el.css('background-color')),
@@ -104,9 +103,9 @@ document.h2swf_callbacks = [];
 					sharpness : options.sharpness,
 					thickness : options.thickness,
 					callback : "h2swf_callback",
+					wordwrap : options.wordwrap ? 1:0,
 					max_width : max_width,
-					auto_adjust_window : options.auto_adjust_window,
-					max_width : options.width
+					prevent_widow : options.prevent_widow ? 1:0
 				};
 				
 				el.find('span').hide(); // hide real text. We might want to do this in a more accessible way here.
@@ -122,6 +121,7 @@ document.h2swf_callbacks = [];
 		}
 	});
 })(jQuery);
+
 function h2swf_callback(id, width, height) {
 	var settings = document.h2swf_callbacks[id];
 	settings.callback(id, width, height);	

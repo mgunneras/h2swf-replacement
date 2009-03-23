@@ -28,7 +28,8 @@ package h2swf {
 		private var _start_hidden;
 		private var _callback;
 		private var _max_width;
-		private var _widow_fix;
+		private var _wordwrap;
+		private var _prevent_widow;
 		
 		
 		
@@ -134,21 +135,30 @@ package h2swf {
 			try{
 				_max_width = getSwfVar( 'max_width' );
 			} catch (e:Error) {
-				_max_width = 700;
+				_max_width = 0;
 			}
 
 			try{
-				_widow_fix = getSwfVar( 'widow_fix' );
+				_wordwrap = parseInt(getSwfVar( 'wordwrap' ));
 			} catch (e:Error) {
-				_widow_fix = true;
+				_wordwrap = 0;
 			}
-			
+
+			try{
+				_prevent_widow = parseInt(getSwfVar( 'prevent_widow' ));
+			} catch (e:Error) {
+				_prevent_widow = 0;
+			}
+
+			//Application.log('Prevent widow in APP: ' + _prevent_widow);
+						
 			loaderInfo.addEventListener(Event.INIT, initHandler);			
+
 		}
 		
 		public function initHandler(e:Event) {
 
-			_manager = new h2swf.StripManager(this, _id, _font_size, _color, _background_color, _alpha, _blocking, _leading, _tracking, _pad_asc, _pad_desc, _sharpness, _thickness, _max_width, _widow_fix);
+			_manager = new h2swf.StripManager(this, _id, _font_size, _color, _background_color, _alpha, _blocking, _leading, _tracking, _pad_asc, _pad_desc, _sharpness, _thickness, _max_width, _wordwrap, _prevent_widow);
 			
 			var sizes:Array = new Array(0, 0);
 			if(_render_txt)

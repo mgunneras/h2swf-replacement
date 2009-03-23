@@ -21,10 +21,11 @@ package h2swf {
 		private var _sharpness:Number;
 		private var _thickness:Number;
 		private var _max_width:Number;
-		private var _widow_fix:Boolean;
+		private var _wordwrap:Boolean;
+		private var _prevent_widow:Boolean;
 		private var string_helper:StringHelper;
 	
-		public function StripManager(target_mc:MovieClip, id, font_size, color, bg_color, alpha, blocking, leading, tracking, pad_asc, pad_desc, sharpness, thickness, max_width, widow_fix) {
+		public function StripManager(target_mc:MovieClip, id, font_size, color, bg_color, alpha, blocking, leading, tracking, pad_asc, pad_desc, sharpness, thickness, max_width, wordwrap, prevent_widow) {
 			
 			_target_mc = target_mc;
 			_strip_containers = new Array();
@@ -36,10 +37,11 @@ package h2swf {
 			_tracking = tracking;
 			_sharpness = sharpness;
 			_thickness = thickness;
-			_max_width = max_width;
-			_widow_fix = widow_fix;
+			_max_width = max_width > 0 ? max_width : 9999;
+			_wordwrap = wordwrap;
+			_prevent_widow = prevent_widow;
 			
-			string_helper = new StringHelper(); 
+			string_helper = new StringHelper();
 			
 			_blocking = new Blocking(bg_color, alpha, blocking, pad_asc, pad_desc);
 			_target_mc.addChild(_blocking);
@@ -67,19 +69,24 @@ package h2swf {
 		public function build_header(pieces:Array, quick_reset:Boolean):Array {
 			
 			while(_strip_containers.length) {
-				_target_mc.removeChild(_strip_containers.pop())
+				_target_mc.removeChild(_strip_containers.pop());
 			}
 			
 			_blocking.clear();
-						
-			pieces = auto_adjust_for_width(pieces);
-			if(_widow_fix){
+			
+			pieces = cleanout_empty_lines(pieces);
+			
+			if(_wordwrap)
+				pieces = auto_adjust_for_width(pieces);
+			if(_prevent_widow){
 				pieces = auto_adjust_for_widows(pieces);
 			}
 			
 			for(var i=0; i< pieces.length; i++) {
 				_blocking.add_tline(get_tline(pieces[i]));
 			}
+			
+			
 			
 			var text_strip = get_text_strip();
 			text_strip.set_text(pieces.join('\n'));
@@ -108,6 +115,17 @@ package h2swf {
 			return tline;
 		}
 		
+		
+		public function cleanout_empty_lines(pieces):Array {
+			var clean_pieces = new Array();
+			while(pieces.length) {
+				var piece = pieces.shift();
+				if(!piece){ trace('Empty piece, moving on.'); continue; } // if empty line
+				clean_pieces.push(piece);
+			}
+			return clean_pieces;
+		}
+		
 		/*
 			if a line ends up beeing longer than max_width
 			we move some text over to the next line.
@@ -116,7 +134,6 @@ package h2swf {
 			var final_pieces = new Array();
 			while(pieces.length) {
 				var piece = pieces.shift();
-				if(!piece){ trace('Empty piece, moving on.'); continue; } // if empty line
 				//return final_pieces;
 				if(get_tline(piece).width(_blocking) > _max_width){
 					// too wide so let's cut the piece down by one word
@@ -154,7 +171,7 @@ package h2swf {
 				if(get_tline(new_last).width(_blocking) < _max_width){
 					// only pop onto new row if still fits max size.
 					pieces[pieces.length-1] = new_last;
-					pieces[pieces.length-2] = prev_arr.join(' ');					
+					pieces[pieces.length-2] = prev_arr.join(' ');
 				}
 				
 			}

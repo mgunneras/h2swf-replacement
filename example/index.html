@@ -18,10 +18,15 @@
 		
 		
 		<style type="text/css" media="screen">
-			body, html { text-align:center; background:#eee; }
+			body, html { text-align:center; background:#333; font-family:Helvetica, Arial, sans-serif; color:#444; font-size:14px; line-height:1.4em; }
+			p { padding:5px 30px; }
+			a { color:#000; }
 			#page { text-align:left; width:600px; min-height:400px; background:#fff; margin:0 auto; padding:30px 0; }
-			h1 { font-family:Helvetica, Arial, sans-serif; font-size:3em; margin:0 0 30px 0; }
-			h2 { font-family:Helvetica, Arial, sans-serif; font-size:3em; margin:30px 0 10px 0; }
+			h1 { font-family:Helvetica, Arial, sans-serif; font-size:60px; margin:0 0 30px 0; font-weight:bold; }
+			h2 { font-family:Helvetica, Arial, sans-serif; font-size:32px; margin:30px 0 10px 0; line-height:1em; font-weight:bold; }
+			h3 { font-family:Helvetica, Arial, sans-serif; font-size:22px; margin:30px 0 10px 0; line-height:1em; font-weight:bold; }
+			pre { color:#666; font-size:12px; line-height:1em; padding-left:30px; }
+			code { font-size:12px; color:#dc7796; }
 		</style>
 		
 		
@@ -29,14 +34,13 @@
 			$(document).ready(function(){
 				
 				$('h1').h2swf({
-					debug : 0,
-					alpha : .3,
-					blocking : [10, 15, 8, 10],
+					alpha : 1,
+					blocking : [10, 15, 5, 26],
 					leading : -5,
 					tracking : -5,
-					background_color : '000000',
+					background_color : '333333',
 					color : 'ffffff',
-					font_size : 70,
+					font_size : 60,
 					pad_desc : 2,
 					sharpness : 0,
 					thickness : 0,
@@ -45,21 +49,35 @@
 					width: 'callback'
 				});
 
-				$('h2').h2swf({
-					debug : 0,
-					alpha : .1,
-					blocking : [8, 18, 7, 8],
-					leading : -5,
-					tracking : -3,
+				$('.blocking-1').h2swf({
+					debug : 1,
+					alpha : .2,
+					blocking : [6, 10, 2, 28],
+					leading : 1,
+					tracking : -2,
 					background_color : '000000',
 					color : '333333',
-					font_size : 50,
-					pad_desc : 0,
-					sharpness : 0,
-					thickness : 0,
+					font_size : 32,
+					pad_desc : 3,
+					swf : "../flash/header.swf",
+					height: 'callback'
+				});
+
+
+				$('.blocking-2').h2swf({
+					debug : 1,
+					alpha : .2,
+					blocking : [6, 10, 2, 28],
+					leading : 1,
+					tracking : -2,
+					background_color : '000000',
+					color : '333333',
+					font_size : 32,
+					pad_desc : 3,
 					swf : "../flash/header.swf",
 					height: 'callback',
-					width: 'callback'
+					wordwrap : true,
+					prevent_widow : true
 				});
 
 				
@@ -69,13 +87,39 @@
 	</head>
 	<body>
 		<div id="page">
-			<h1>Lorem ipsum <br>dolor sit amet, <br>consectetur</h1>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<h2>Sed do eiusmod<br> tempor incididunt</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<h2>Ut enim ad</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
+			
+			<h1>H2SWF</h1>
+			
+			<p>H2SWF is a Flash and JavaScript script based tool inspired by sIFR to create custom font headlines. H2SWF is written as a plugin to jQuery and uses SWFObject to embed the SWF font files. <a href="http://github.com/mgunneras/h2swf-replacement/tree/master">Download Source</a></p>
+			<p>H2SWF has been developed for: Firefox 2 and 3, IE 6,7 and 8, Safari 3 and 4. It degrades gracefully for non JavaScript environments.</p>
+			
+			<h2 class="blocking-1">Headline with <br>blocking that spans <br>over 3 lines</h2>
+			<p>
+				Run this code through <a href="http://www.getfirebug.com/" title="Firebug - Web Development Evolved">Firebug</a> to test various settings:
+				<pre>
+				<code>
+$('.blocking-1').h2swf({
+	alpha : .2,
+	blocking : [6, 10, 2, 28],
+	leading : 1,
+	tracking : -2,
+	background_color : '000000',
+	color : '333333',
+	font_size : 32,
+	pad_desc : 3,
+	swf : "../flash/header.swf",
+	height: 'callback'
+});
+				</code>
+				</pre>
+			</p>
+			
+			<h2 class="blocking-2">Prevention for lonely words on last line</h2>
+			<p>
+				Make sure that the last line doesn't have a single word on in. This only works if the previous line has 3 or more words in it. Inspired by <a href="http://shauninman.com/archive/2006/08/22/widont_wordpress_plugin" title="Widon&#8217;t // ShaunInman.com">widon't</a>.<br /> 
+				<code>prevent_widow : true</code>
+			</p>			
+			
 		</div>
 	</body>
 </html>
