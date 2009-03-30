@@ -74,8 +74,6 @@ package h2swf {
 			
 			_blocking.clear();
 			
-			pieces = cleanout_empty_lines(pieces);
-			
 			if(_wordwrap)
 				pieces = auto_adjust_for_width(pieces);
 			if(_prevent_widow){
@@ -106,15 +104,7 @@ package h2swf {
 			//new Tween(container, 'alpha', Regular.easeIn, 0, 1, .4, true);
 			//Application.log('Finished Building Header: ' + pieces);
 			return new Array(_blocking.width, _blocking.height);
-		}
-		
-		
-		public function get_tline(str) {
-			var tline = new TLine(str);
-			tline.set_text_strip(get_text_strip());
-			return tline;
-		}
-		
+		}		
 		
 		public function cleanout_empty_lines(pieces):Array {
 			var clean_pieces = new Array();
@@ -126,38 +116,38 @@ package h2swf {
 			return clean_pieces;
 		}
 		
-		/*
-			if a line ends up beeing longer than max_width
-			we move some text over to the next line.
-		*/
-		public function auto_adjust_for_width(pieces):Array {
-			var final_pieces = new Array();
-			while(pieces.length) {
-				var piece = pieces.shift();
-				//return final_pieces;
-				if(get_tline(piece).width(_blocking) > _max_width){
-					// too wide so let's cut the piece down by one word
-					if(piece.split(" ").length <= 1){
-						trace('Only one word so nothing to do but move on.');
-					}else{
-						var word_array = piece.split(" ");
-						var last_word:String = word_array.pop();
-						// add the last word to next line.
-						if(!pieces[0]) { pieces[0] = ""; }
-						pieces[0] = string_helper.trim(pieces[0] + " " + last_word, ' ');
-						// now let's put this piece back together again.
-						piece = word_array.join(" ");
-						// we then add this piece back to the front of the array
-						// making this loop sort of recursive.
-						pieces.unshift(piece);
-						continue;
-					}
-				}
-				// add to final
-				final_pieces.push(piece);
+		public function trim_lines(rows):Array {
+			for(var i=0; i<rows.length; i++){
+				rows[i] = string_helper.trim(rows[i], ' ');
 			}
-			return final_pieces;
+			return rows;
+		}		
+		
+		public function auto_adjust_for_width(rows):Array {
+			var final_rows = new Array();
+			var line_index:Number = 0;
+			var current_original_line_index:Number = 0;
+			for(var i=0; i < rows.length; i++){
+				var row = rows[i].split(' ');
+				var space_left:Number = _max_width;
+				for(var j=0; j < row.length; j++){
+					if(space_left < word_width(row[j], true)){
+						// move to next line
+						line_index++;
+						space_left = _max_width - word_width(row[j], true);
+					}else{
+						space_left = space_left - (word_width(row[j], false) + space_width());
+					}
+					if(!final_rows[line_index]){
+						final_rows[line_index] = "";
+					}
+					final_rows[line_index] = final_rows[line_index] + row[j] + " ";
+				}
+				line_index++;
+			}
+			return trim_lines(final_rows);
 		}
+		
 		
 		/*
 			if we have a single word (a widow) on the last line,
@@ -168,16 +158,33 @@ package h2swf {
 			if(pieces.length > 1 && pieces[pieces.length-1].split(' ').length == 1 && pieces[pieces.length-2].split(' ').length >= 4){
 				var prev_arr:Array = pieces[pieces.length-2].split(' ');
 				var new_last = prev_arr.pop() + ' ' + pieces[pieces.length-1];
-				if(get_tline(new_last).width(_blocking) < _max_width){
+				if(word_width(new_last, true) < _max_width){
 					// only pop onto new row if still fits max size.
 					pieces[pieces.length-1] = new_last;
 					pieces[pieces.length-2] = prev_arr.join(' ');
-				}
-				
+				}		
 			}
-			return pieces
+			return trim_lines(pieces);
 		}
 		
+		// TODO: we could cache this.
+		public function space_width():Number {
+			return get_tline("a a").width(_blocking) - get_tline("aa").width(_blocking);
+		}
+		
+		public function word_width(word:String, include_blocking:Boolean):Number {
+			if (include_blocking){
+				return get_tline(word).width(_blocking);
+			}else{
+				return get_tline(word).text_strip.width;
+			}
+		}
+		
+		public function get_tline(str) {
+			var tline = new TLine(str);
+			tline.set_text_strip(get_text_strip());
+			return tline;
+		}
 		
 		// simple MultiLineTextField factory
 		public function get_text_strip():MultiLineTextField {

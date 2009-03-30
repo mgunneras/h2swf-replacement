@@ -41,7 +41,7 @@ package h2swf {
 			try{
 				_render_txt = getSwfVar( 'render_txt' );
 			} catch (e:Error) {
-				_render_txt = "This is some testing text";
+				_render_txt = "My|text is longer than yours";
 			}
 			
 			try{
@@ -135,13 +135,13 @@ package h2swf {
 			try{
 				_max_width = getSwfVar( 'max_width' );
 			} catch (e:Error) {
-				_max_width = 0;
+				_max_width = 500;
 			}
 
 			try{
 				_wordwrap = parseInt(getSwfVar( 'wordwrap' ));
 			} catch (e:Error) {
-				_wordwrap = 0;
+				_wordwrap = true;
 			}
 
 			try{
@@ -203,7 +203,7 @@ package h2swf {
 			THE FLASH AUTHORING TOOL
 		*/
 		public function run_timed_tests() {
-			setTimeout(display_test_text, 1000, ['City back in Europe.']);
+			setTimeout(display_test_text, 2000, ['City back in Europe.']);
 			/*setTimeout(display_test_text, 2000, ['City back', 'in Europe.']);
 			setTimeout(display_test_text, 3000, ['Three', 'Line', 'Text']);
 			setTimeout(display_test_text, 4000, ['Some decenders on the last line yes?']);

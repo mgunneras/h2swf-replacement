@@ -123,6 +123,10 @@ package h2swf {
 			
 		}
 		
+		public function extra_width ():Number {
+			return _default_blocking[1] + _default_blocking[3];
+		} 
+		
 		
 
 		/*

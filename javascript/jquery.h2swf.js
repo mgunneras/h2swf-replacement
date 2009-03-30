@@ -61,7 +61,7 @@ document.h2swf_callbacks = [];
 				
 				// calculate height and set it to the element.
 				if(typeof(options.width) == 'number') {
-					container.css('width', options.width || el.css('width'));
+					container.css('width', options.width);
 					max_width = parseInt(options.width);
 				}else if(options.wordwrap){
 					max_width = parseInt(el.css('width'));
