@@ -64,10 +64,13 @@ document.h2swf_callbacks = [];
 					container.css('width', options.width);
 					max_width = parseInt(options.width);
 				}else if(options.wordwrap){
-					max_width = parseInt(el.css('width'));
+					var n = parseInt(el.css('width'));
+					max_width = !n ? el.get(0).offsetWidth : n;
+					container.css('width', max_width);
 				}else{
 					max_width = 0;
 				}
+				
 				if(options.height != 'callback' && options.width != null){
 					container.css('height', options.height || el.css('height'));
 				};
@@ -124,7 +127,7 @@ document.h2swf_callbacks = [];
 
 function h2swf_callback(id, width, height) {
 	var settings = document.h2swf_callbacks[id];
-	settings.callback(id, width, height);	
+	settings.callback(id, width, height);
 	if(settings.options.width == 'callback'){
 		$('#'+id).css('width', width);
 	}
