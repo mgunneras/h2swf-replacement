@@ -1,7 +1,11 @@
 package h2swf {
+
+	import flash.xml.*;
 	
 	class StringHelper {
+
 	    public function StringHelper() {
+
 	    }
 
 	    public function replace(str:String, oldSubStr:String, newSubStr:String):String {
@@ -34,6 +38,15 @@ package h2swf {
 	        }
 	        return str.slice(0, 1);
 	    }
+		
+		public static function htmlEscape(str:String):String {
+		    return XML(new XMLNode(XMLNodeType.TEXT_NODE, str)).toXMLString();
+		}
+		
+		public static function htmlUnescape(str:String):String {
+			return new XMLDocument(str).firstChild.nodeValue;
+		}
+		
 	}
 
 }

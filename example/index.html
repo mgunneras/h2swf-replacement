@@ -60,7 +60,7 @@
 					font_size : 32,
 					pad_desc : 3,
 					swf : "../flash/header.swf",
-					height: 'callback',
+					height: 'callback'
 				});
 
 
@@ -93,12 +93,13 @@
 			<p>H2SWF is a Flash and JavaScript script based tool inspired by sIFR to create custom font headlines. H2SWF is written as a plugin to jQuery and uses SWFObject to embed the SWF font files. <a href="http://github.com/mgunneras/h2swf-replacement/tree/master">Download Source</a></p>
 			<p>H2SWF has been developed for: Firefox 2 and 3, IE 6,7 and 8, Safari 3 and 4. It degrades gracefully for non JavaScript environments.</p>
 			
-			<h2 class="blocking-1">Headline with <br>blocking that spans <br>over 3 lines</h2>
+			<h2 class="blocking-1">Headline &amp; with <br>blocking that spans <br>over 3 lines</h2>
 			<p>
 				Run this code through <a href="http://www.getfirebug.com/" title="Firebug - Web Development Evolved">Firebug</a> to test various settings:
 				<pre>
 				<code>
 $('.blocking-1').h2swf({
+	debug : 1,
 	alpha : .2,
 	blocking : [6, 10, 2, 28],
 	leading : 1,

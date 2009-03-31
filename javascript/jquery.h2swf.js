@@ -92,7 +92,7 @@ document.h2swf_callbacks = [];
 				var flashvars = {
 					id : id,
 					debug : options.debug  ? 1:0,
-					render_txt : text,
+					render_txt : escape(text),
 					color : options.color ? options.color :  CSSColorToHex(el.css('color')),
 					background_color : options.background_color ? options.background_color :  CSSColorToHex(el.css('background-color')),
 					alpha : options.alpha,

@@ -39,7 +39,7 @@ package h2swf {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
 			try{
-				_render_txt = getSwfVar( 'render_txt' );
+				_render_txt = StringHelper.htmlUnescape(getSwfVar( 'render_txt' ));
 			} catch (e:Error) {
 				_render_txt = "My|text is longer than yours";
 			}
