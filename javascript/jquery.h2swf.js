@@ -31,7 +31,6 @@ document.h2swf_callbacks = [];
 			return this.each(function () {
 				
 				var el = $(this);
-
 				var source = el.hasClass('h2swf') ? el.find('span').html() : el.html();
 				
 				// read text inside the element.
@@ -114,12 +113,13 @@ document.h2swf_callbacks = [];
 				el.find('span').hide(); // hide real text. We might want to do this in a more accessible way here.
 				el.find('object').remove(); // remove old h2swf's TODO: check for last id here instead of all object tags?
 				el.css('background', 'none');
-				swfobject.embedSWF(options.swf, id, container.css('width'), container.css('height'), "9.0.0", "expressInstall.swf", flashvars, params, attributes);
+				
+				swfobject.embedSWF(options.swf, id, parseInt(container.css('width')) || 1, parseInt(container.css('height')) || 1, "9.0.0", "expressInstall.swf", flashvars, params, attributes);
 			});
 			
 			// utility functions
-			function CSSColorToHex(css_str) { var a = css_str.replace(new RegExp(/[^0-9+,]/g), '').split(','); return RGBtoHex(a[0], a[1], a[2]) }
-			function RGBtoHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+			function CSSColorToHex(css_str) { var a = css_str.replace(new RegExp(/[^0-9+,]/g), '').split(','); return RGBtoHex(a[0], a[1], a[2]); }
+			function RGBtoHex(R,G,B) { return toHex(R)+toHex(G)+toHex(B); }
 			function toHex(N) { if (N==null) return "00"; N=parseInt(N); if (N==0 || isNaN(N)) return "00"; N=Math.max(0,N); N=Math.min(N,255); N=Math.round(N); return "0123456789ABCDEF".charAt((N-N%16)/16) + "0123456789ABCDEF".charAt(N%16); }
 		}
 	});
@@ -129,9 +129,11 @@ function h2swf_callback(id, width, height) {
 	var settings = document.h2swf_callbacks[id];
 	settings.callback(id, width, height);
 	if(settings.options.width == 'callback'){
-		$('#'+id).css('width', width);
+		$('#'+id).css('width', parseInt(width));
+		$('#'+id).attr('width', parseInt(width));
 	}
 	if(settings.options.height == 'callback'){
-		$('#'+id).css('height', height);
+		$('#'+id).css('height', parseInt(height));
+		$('#'+id).attr('height', parseInt(height));
 	}
 }

@@ -3,7 +3,7 @@ package h2swf {
 	import flash.display.*;
 	import flash.text.*;
 	import flash.utils.ByteArray;
-	import flash.external.ExternalInterface;
+	import flash.external.*;
 	import flash.system.Capabilities;
 	import flash.utils.*;
 	import flash.events.Event;
@@ -164,7 +164,7 @@ package h2swf {
 			if(_render_txt)
 				sizes =	_manager.build_header(_render_txt.split('|'), true);
 			
-			ExternalInterface.call(_callback, _id, sizes[0], sizes[1]);
+			flash.external.ExternalInterface.call(_callback, _id, sizes[0], sizes[1]);
 			
 			// run tests here.
 			if(Capabilities.playerType == 'External'){
@@ -193,7 +193,7 @@ package h2swf {
 		public static function log(str:*) {
 			trace(str)
 			if(_debug){
-				ExternalInterface.call("console.log", "F: " + str.toString());
+				flash.external.ExternalInterface.call("console.log", "F: " + str.toString());
 			}
 		}		
 		
