@@ -113,8 +113,6 @@
 					width_threshold : options.width_threshold
 				};
 				
-				console.log(options.width_threshold);
-				
 				el.find('span').hide(); // hide real text. We might want to do this in a more accessible way here.
 				el.find('object').remove(); // remove old h2swf's TODO: check for last id here instead of all object tags?
 				el.css('background', 'none');
