@@ -16,16 +16,18 @@ package h2swf {
 		private var _baseline_height;
 		private var _pad_asc;
 		private var _pad_desc;
+		private var _width_threshold:Number;
 		
-		public function Blocking(color, alpha, default_blocking, pad_asc, pad_desc){
+		public function Blocking(color, alpha, default_blocking, pad_asc, pad_desc, width_threshold){
 			_color=parseInt("0x"+color);
 			_alpha=alpha;
 			_default_blocking = default_blocking;
 			_pad_asc = pad_asc;
 			_pad_desc = pad_desc;
+			set_width_threshold(width_threshold);
 			_sprite = new Sprite();
 			_sprite.alpha = alpha;
-			addChild(_sprite);
+			addChild(_sprite);			
 		}
 		
 		public function clear() {
@@ -48,6 +50,10 @@ package h2swf {
 			_baseline_height = (_line_height * 0.85);
 		}
 		
+		public function set_width_threshold(threshold:Number) {
+			_width_threshold = threshold;
+		}
+		
 		public function line_height() {
 			return _line_height;
 		}
@@ -57,6 +63,7 @@ package h2swf {
 			
 			var cx=0;
 			var cy=0;
+			var bring_over_x=0;
 			var bring_over_y=0;
 			
 			for(var i=0; i < _tlines.length; i++) {
@@ -69,9 +76,12 @@ package h2swf {
 				*/
 				
 				cx = c.width(false) + _default_blocking[3] + _default_blocking[1];
-				
-				_sprite.graphics.lineTo(cx, cy);					
-				
+				if(bring_over_x){
+					cx = Math.abs(cx-bring_over_x) > _width_threshold ? cx : bring_over_x;
+				}
+				trace('bringing : ' + bring_over_x + ' cx: ' + cx);
+				_sprite.graphics.lineTo(cx, cy);
+				bring_over_x = cx;
 				
 				
 				/*

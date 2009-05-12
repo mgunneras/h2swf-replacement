@@ -27,7 +27,9 @@ $('h1').h2swf({
 	thickness : 0,					
 	swf : "../flash/header.swf",	// path to the swf
 	height: 'callback',				// number or 'callback'
-	width: 'callback'				// number or 'callback'
+	width: 'callback',				// number or 'callback'
+	prevent_widow : true,			// prevents a single word on last line in some cases.
+	width_threshold : 5				// adjusts blocking width if line width difference < 5
 });
 
 
@@ -36,3 +38,4 @@ TODO:
 
  - Degrade gracefully for non Flash environments.
  - Move settings and callback function into $.h2swf to avoid cluttering global namespace.
+ - Adjust blocked lines to be the same width if width difference is less than width_threshold

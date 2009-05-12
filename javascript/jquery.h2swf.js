@@ -42,8 +42,9 @@ document.h2swf_callbacks = [];
 				el.addClass('h2swf');
 				
 				// trim whitespace on all pieces
-				for(var i = 0; i < text.length; i++)
+				for(var i = 0; i < text.length; i++){
 					text[i] = text[i].replace(/^\s+|\s+$/g, '');
+				}
 				
 				// swap row breaks with divider
 				text = text.join('|');

@@ -23,9 +23,10 @@ package h2swf {
 		private var _max_width:Number;
 		private var _wordwrap:Boolean;
 		private var _prevent_widow:Boolean;
+		private var _width_threshold:Number;
 		private var string_helper:StringHelper;
 	
-		public function StripManager(target_mc:MovieClip, id, font_size, color, bg_color, alpha, blocking, leading, tracking, pad_asc, pad_desc, sharpness, thickness, max_width, wordwrap, prevent_widow) {
+		public function StripManager(target_mc:MovieClip, id, font_size, color, bg_color, alpha, blocking, leading, tracking, pad_asc, pad_desc, sharpness, thickness, max_width, wordwrap, prevent_widow, width_threshold) {
 			
 			_target_mc = target_mc;
 			_strip_containers = new Array();
@@ -40,10 +41,11 @@ package h2swf {
 			_max_width = max_width > 0 ? max_width : 9999;
 			_wordwrap = wordwrap;
 			_prevent_widow = prevent_widow;
+			_width_threshold = width_threshold;
 			
 			string_helper = new StringHelper();
 			
-			_blocking = new Blocking(bg_color, alpha, blocking, pad_asc, pad_desc);
+			_blocking = new Blocking(bg_color, alpha, blocking, pad_asc, pad_desc, _width_threshold);
 			_target_mc.addChild(_blocking);
 			
 			_target_mc.alpha = 1;
@@ -84,8 +86,6 @@ package h2swf {
 				_blocking.add_tline(get_tline(pieces[i]));
 			}
 			
-			
-			
 			var text_strip = get_text_strip();
 			text_strip.set_text(pieces.join('\n'));
 			
@@ -100,9 +100,7 @@ package h2swf {
 			
 			// add it to the target
 			_target_mc.addChild(text_strip);
-			
-			//new Tween(container, 'alpha', Regular.easeIn, 0, 1, .4, true);
-			//Application.log('Finished Building Header: ' + pieces);
+
 			return new Array(_blocking.width, _blocking.height);
 		}		
 		

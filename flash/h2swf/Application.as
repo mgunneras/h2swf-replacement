@@ -30,7 +30,7 @@ package h2swf {
 		private var _max_width;
 		private var _wordwrap;
 		private var _prevent_widow;
-		
+		private var _width_threshold;		
 		
 		
 		public function Application() {
@@ -150,15 +150,18 @@ package h2swf {
 				_prevent_widow = 0;
 			}
 
-			//Application.log('Prevent widow in APP: ' + _prevent_widow);
+			try{
+				_width_threshold = parseInt(getSwfVar( 'width_threshold' ));
+			} catch (e:Error) {
+				_width_threshold = 5;
+			}
 						
 			loaderInfo.addEventListener(Event.INIT, initHandler);			
-
 		}
 		
 		public function initHandler(e:Event) {
 
-			_manager = new h2swf.StripManager(this, _id, _font_size, _color, _background_color, _alpha, _blocking, _leading, _tracking, _pad_asc, _pad_desc, _sharpness, _thickness, _max_width, _wordwrap, _prevent_widow);
+			_manager = new h2swf.StripManager(this, _id, _font_size, _color, _background_color, _alpha, _blocking, _leading, _tracking, _pad_asc, _pad_desc, _sharpness, _thickness, _max_width, _wordwrap, _prevent_widow, _width_threshold);
 			
 			var sizes:Array = new Array(0, 0);
 			if(_render_txt)
@@ -199,17 +202,16 @@ package h2swf {
 		
 		
 		/*
-			TESTS THAT SHOULD ONLY RUN IN 
+			VISUAL TESTS THAT SHOULD ONLY RUN IN 
 			THE FLASH AUTHORING TOOL
 		*/
 		public function run_timed_tests() {
-			setTimeout(display_test_text, 2000, ['City back in Europe.']);
-			/*setTimeout(display_test_text, 2000, ['City back', 'in Europe.']);
+/*			setTimeout(display_test_text, 2000, ['City back in Europe.']);*/
+/*			setTimeout(display_test_text, 2000, ['City back', 'in Europe.']);*/
 			setTimeout(display_test_text, 3000, ['Three', 'Line', 'Text']);
-			setTimeout(display_test_text, 4000, ['Some decenders on the last line yes?']);
-			setTimeout(display_test_text, 5000, ['This is a little text with many many small']);
-			
-*/		}		
+/*			setTimeout(display_test_text, 4000, ['Some decenders on the last line yes?']);*/
+/*			setTimeout(display_test_text, 5000, ['This is a little text with many many small words']);*/
+		}		
 		public function display_test_text(thetext) {
 			_manager.build_header(thetext, false);
 		}
