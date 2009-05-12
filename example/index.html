@@ -27,6 +27,7 @@
 			h3 { font-family:Helvetica, Arial, sans-serif; font-size:22px; margin:30px 0 10px 0; line-height:1em; font-weight:bold; }
 			pre { color:#666; font-size:12px; line-height:1em; padding-left:30px; }
 			code { font-size:12px; color:#dc7796; }
+			em { font-style:italic; }
 		</style>
 		
 		
@@ -53,7 +54,7 @@
 				$('.blocking-1').h2swf({
 					debug : 1,
 					alpha : .2,
-					blocking : [6, 10, 2, 28],
+					blocking : [6, 10, 5, 28],
 					leading : 1,
 					tracking : -2,
 					background_color : '000000',
@@ -68,7 +69,7 @@
 				$('.blocking-2').h2swf({
 					debug : 0,
 					alpha : .2,
-					blocking : [6, 10, 2, 28],
+					blocking : [6, 10, 5, 28],
 					leading : 1,
 					tracking : -2,
 					background_color : '000000',
@@ -79,6 +80,21 @@
 					height: 'callback',
 					wordwrap : true,
 					prevent_widow : true
+				});
+
+				$('.blocking-3').h2swf({
+					debug : 0,
+					alpha : .2,
+					blocking : [6, 10, 5, 28],
+					leading : 1,
+					tracking : -2,
+					background_color : '000000',
+					color : '333333',
+					font_size : 32,
+					pad_desc : 3,
+					swf : "../flash/header.swf",
+					height: 'callback',
+					width_threshold : 15
 				});
 				
 				
@@ -94,7 +110,7 @@
 			<p>H2SWF is a Flash and JavaScript script based tool inspired by sIFR to create custom font headlines. H2SWF is written as a plugin to jQuery and uses SWFObject to embed the SWF font files. <a href="http://github.com/mgunneras/h2swf-replacement/tree/master">Download Source</a></p>
 			<p>H2SWF has been developed for: Firefox 2 and 3, IE 6,7 and 8, Safari 3 and 4. It degrades gracefully for non JavaScript environments.</p>
 			
-			<h2 class="blocking-1">Headline &amp; with <br>blocking that spans <br>over 3 lines</h2>
+			<h2 class="blocking-1">Headline with <br>blocking that spans <br>over 3 lines</h2>
 			<p>
 				Run this code through <a href="http://www.getfirebug.com/" title="Firebug - Web Development Evolved">Firebug</a> to test various settings:
 				<pre>
@@ -120,7 +136,15 @@ $('.blocking-1').h2swf({
 			<p>
 				Make sure that the last line doesn't have a single word on in. This only works if the previous line has 3 or more words in it. Inspired by <a href="http://shauninman.com/archive/2006/08/22/widont_wordpress_plugin" title="Widon&#8217;t // ShaunInman.com">widon't</a>.<br /> 
 				<code>prevent_widow : true</code>
+			</p>
+			
+			
+			<h2 class="blocking-3">Similar<br>length<br>words<br>get's the same<br>padding</h2>
+			<p>
+				If we've got 2 consecutive lines that has very similar but not quite the same width, we'll want to make the blocking for these lines the same. So by setting <code>width_threshold</code> we can make this happen. 
+				In the above example I've set a <code>width_threshold</code> of 15, which causes the first 3 lines <em>similar, length</em> and <em>words</em> to have the exact same blocking width.
 			</p>			
+
 		</div>
 	</body>
 </html>

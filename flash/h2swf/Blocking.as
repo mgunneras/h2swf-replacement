@@ -79,7 +79,6 @@ package h2swf {
 				if(bring_over_x){
 					cx = Math.abs(cx-bring_over_x) > _width_threshold ? cx : bring_over_x;
 				}
-				trace('bringing : ' + bring_over_x + ' cx: ' + cx);
 				_sprite.graphics.lineTo(cx, cy);
 				bring_over_x = cx;
 				

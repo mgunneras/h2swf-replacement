@@ -1,5 +1,3 @@
-document.h2swf_id_counter = 0;
-document.h2swf_callbacks = [];
 (function ($) {
 	$.extend($.fn, {
 		h2swf: function (options) {
@@ -23,7 +21,8 @@ document.h2swf_callbacks = [];
 				thickness : 0, // -200 to 200
 				wordwrap : true, // wraps text if wider than 'width'
 				prevent_widow : false, // tries to prevent a single word on the last line.
-				on_ready_callback : function(){}
+				width_threshold : 3, // // adjusts blocking width if line width difference < width_threshold
+				on_ready_callback : function(){ }
 			};
 
 			options = $.extend(defaults, options);
@@ -50,7 +49,7 @@ document.h2swf_callbacks = [];
 				text = text.join('|');
 								
 				// attach a id to the element.
-				var id = 'h2swf'+document.h2swf_id_counter++;
+				var id = 'h2swf'+$.h2swf_id_counter++;
 				
 				// append our new flash container inside
 				el.append('<div id="'+id+'"></div>');
@@ -84,7 +83,9 @@ document.h2swf_callbacks = [];
 					id: id
 				};
 				
-				document.h2swf_callbacks[id] = {
+				// store down settings for this instance
+				// so we can pick it backup from the callback from Flash.
+				$.h2swf_callbacks[id] = {
 					callback : options.on_ready_callback,
 					options: options
 				};
@@ -105,36 +106,41 @@ document.h2swf_callbacks = [];
 					pad_desc : options.pad_desc,
 					sharpness : options.sharpness,
 					thickness : options.thickness,
-					callback : "h2swf_callback",
+					callback : "jQuery.h2swf_callback",
 					wordwrap : options.wordwrap ? 1:0,
 					max_width : max_width,
-					prevent_widow : options.prevent_widow ? 1:0
+					prevent_widow : options.prevent_widow ? 1:0,
+					width_threshold : options.width_threshold
 				};
+				
+				console.log(options.width_threshold);
 				
 				el.find('span').hide(); // hide real text. We might want to do this in a more accessible way here.
 				el.find('object').remove(); // remove old h2swf's TODO: check for last id here instead of all object tags?
 				el.css('background', 'none');
-				
 				swfobject.embedSWF(options.swf, id, parseInt(container.css('width')) || 1, parseInt(container.css('height')) || 1, "9.0.0", "expressInstall.swf", flashvars, params, attributes);
 			});
-			
-			// utility functions
-			function CSSColorToHex(css_str) { var a = css_str.replace(new RegExp(/[^0-9+,]/g), '').split(','); return RGBtoHex(a[0], a[1], a[2]); }
-			function RGBtoHex(R,G,B) { return toHex(R)+toHex(G)+toHex(B); }
-			function toHex(N) { if (N==null) return "00"; N=parseInt(N); if (N==0 || isNaN(N)) return "00"; N=Math.max(0,N); N=Math.min(N,255); N=Math.round(N); return "0123456789ABCDEF".charAt((N-N%16)/16) + "0123456789ABCDEF".charAt(N%16); }
 		}
 	});
+	
+	// utility functions
+	var CSSColorToHex = function (css_str) { var a = css_str.replace(new RegExp(/[^0-9+,]/g), '').split(','); return RGBtoHex(a[0], a[1], a[2]); };
+	var RGBtoHex = function (R,G,B) { return toHex(R)+toHex(G)+toHex(B); };
+	var toHex = function (N) { if (N==null) return "00"; N=parseInt(N); if (N==0 || isNaN(N)) return "00"; N=Math.max(0,N); N=Math.min(N,255); N=Math.round(N); return "0123456789ABCDEF".charAt((N-N%16)/16) + "0123456789ABCDEF".charAt(N%16); };	
+	
+	$.h2swf_id_counter = 0;
+	$.h2swf_callbacks = [];
+	$.h2swf_callback = function (id, width, height) {
+		var settings = $.h2swf_callbacks[id];
+		settings.callback(id, width, height);
+		if(settings.options.width == 'callback'){
+			$('#'+id).css('width', parseInt(width));
+			$('#'+id).attr('width', parseInt(width));
+		}
+		if(settings.options.height == 'callback'){
+			$('#'+id).css('height', parseInt(height));
+			$('#'+id).attr('height', parseInt(height));
+		}
+	};
+	
 })(jQuery);
-
-function h2swf_callback(id, width, height) {
-	var settings = document.h2swf_callbacks[id];
-	settings.callback(id, width, height);
-	if(settings.options.width == 'callback'){
-		$('#'+id).css('width', parseInt(width));
-		$('#'+id).attr('width', parseInt(width));
-	}
-	if(settings.options.height == 'callback'){
-		$('#'+id).css('height', parseInt(height));
-		$('#'+id).attr('height', parseInt(height));
-	}
-}
