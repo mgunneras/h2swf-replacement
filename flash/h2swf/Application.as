@@ -41,7 +41,7 @@ package h2swf {
 			try{
 				_render_txt = StringHelper.htmlUnescape(getSwfVar( 'render_txt' ));
 			} catch (e:Error) {
-				_render_txt = "My|text is longer than yours";
+				_render_txt = "";
 			}
 			
 			try{

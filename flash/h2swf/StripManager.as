@@ -116,7 +116,7 @@ package h2swf {
 		
 		public function trim_lines(rows):Array {
 			for(var i=0; i<rows.length; i++){
-				rows[i] = string_helper.trim(rows[i], ' ');
+				rows[i] = rows[i] ? string_helper.trim(rows[i], ' ') : rows[i];
 			}
 			return rows;
 		}		
