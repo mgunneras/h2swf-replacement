@@ -93,7 +93,7 @@
 				var flashvars = {
 					id : id,
 					debug : options.debug  ? 1:0,
-					render_txt : escape(text),
+					render_txt : escape(escape(text)),
 					color : options.color ? options.color :  CSSColorToHex(el.css('color')),
 					background_color : options.background_color ? options.background_color :  CSSColorToHex(el.css('background-color')),
 					alpha : options.alpha,

@@ -39,7 +39,15 @@ package h2swf {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
 			try{
-				_render_txt = StringHelper.htmlUnescape(getSwfVar( 'render_txt' ));
+				//_render_txt = StringHelper.htmlUnescape(getSwfVar( 'render_txt' ));
+				_render_txt = unescape(getSwfVar('render_txt'));
+				//_render_txt = getSwfVar('render_txt');
+				_render_txt = _render_txt.replace(/&amp;/g, '&');
+				_render_txt = _render_txt.replace(/&gt;/g, '>');
+				_render_txt = _render_txt.replace(/&lt;/g, '<');
+				_render_txt = _render_txt.replace(/&nbsp;/g, ' ');
+				_render_txt = _render_txt.replace(/&quot;/g, '"');
+				//flash.external.ExternalInterface.call("console.log", "F: " + _render_txt);
 			} catch (e:Error) {
 				_render_txt = "";
 			}
@@ -170,7 +178,7 @@ package h2swf {
 			flash.external.ExternalInterface.call(_callback, _id, sizes[0], sizes[1]);
 			
 			// run tests here.
-			if(Capabilities.playerType == 'External'){
+			if(Capabilities.playerType == 'External') {
 				run_timed_tests();
 			}
 		}
